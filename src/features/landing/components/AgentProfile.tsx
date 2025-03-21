@@ -1,3 +1,4 @@
+'use client';
 import { User } from "@/features/admin/dashboard/api/userApi";
 import { AxiosApi } from "@/lib/utils";
 import { useEffect, useState } from "react";

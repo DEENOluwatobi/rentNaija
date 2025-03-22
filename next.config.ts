@@ -1,7 +1,7 @@
 import type {NextConfig} from "next";
 
 
-// export const baseURL = 'https://api.rent9ja.com.ng/api';
+
 export const frontendURL = 'https://rent9ja.com.ng';
 export const backendUrl = 'https://app.rent9ja.com.ng';
 export const baseURL = backendUrl+'/api';

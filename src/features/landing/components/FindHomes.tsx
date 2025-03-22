@@ -9,6 +9,7 @@ import type {
   FindHomesProps, 
   ApartmentCardProps 
 } from '@/types/apartment';
+import { AxiosApi } from '@/lib/utils';
 
 const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onClick }) => (
   <div 
@@ -18,7 +19,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, onClick }) => 
     <div className="flex flex-col gap-2">
       <div className="flex w-full h-[200px] rounded-lg overflow-hidden">
         <img 
-          src={Object.values(apartment.images)[0]?.preview_url || '/placeholder.jpg'} 
+          src={apartment?.images && Object.values(apartment?.images)[0]?.preview_url || '/placeholder.jpg'} 
           alt={apartment.title} 
           className="w-full h-full object-cover"
         />
@@ -49,40 +50,41 @@ const FindHomes: React.FC<FindHomesProps> = ({ initialData }) => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    if (initialData) {
-      setApartments(initialData.data.data);
-      const uniqueCategories = [...new Set(initialData.data.data.map(apt => apt.category))];
-      setCategories(uniqueCategories);
-      return;
-    }
-
     const fetchApartments = async () => {
-      try {
+  
         setIsLoading(true);
-        const response = await fetch('/api/apartments');
-        const data: ApiResponse = await response.json();
+        await AxiosApi().get('/api/apartments')
+
+        .then((response)=>{
+          let data:ApiResponse = response.data;
         if (data.success) {
           setApartments(data.data.data);
-          const uniqueCategories = [...new Set(data.data.data.map(apt => apt.category))];
+          const uniqueCategories = [...new Set(data.data.data.map((apt:any) => apt.category))];
           setCategories(uniqueCategories);
         } else {
           setError(data.message || 'Failed to fetch apartments');
         }
-      } catch (error) {
-        setError('Failed to fetch apartments');
-        //console.error('Error fetching apartments:', error);
-      } finally {
+        }).catch((error) =>setError('Failed to fetch apartments') )
+        . finally (()=>{
         setIsLoading(false);
-      }
-    };
+      })
+    }
 
+  useEffect(() => {
+    if (initialData) {
+      setApartments(initialData.data.data);
+      const uniqueCategories = [...new Set(initialData.data.data.map(apt => apt.category))]
+                    .filter((category): category is string => category !== undefined);
+                    setCategories(uniqueCategories);
+      return;
+    }
+
+    
     fetchApartments();
   }, [initialData]);
 
-  const handleApartmentClick = (apartment: Apartment) => {
-    const encodedData = encodeURIComponent(JSON.stringify(apartment));
-    router.push(`/find-homes/${apartment.id}?data=${encodedData}`);
+  const handleApartmentClick = (apartment: Apartment) => { 
+    router.push(`/find-homes/${apartment.id}`);
   };
 
   if (isLoading) {

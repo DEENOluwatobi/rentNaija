@@ -1,5 +1,5 @@
 import React from 'react';
-import UserRent from '@/features/landing/components/UserRent';
+import UserRent from '@/features/user/UserRent';
 
 const page = () => {
     return (

@@ -99,11 +99,12 @@ const loadInitialState = (): AdminState => {
 
 export const loginAdmin = createAsyncThunk(
     'admin/login',
-    async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
+    async ({ email, password,account_id }: { email: string; password: string ,account_id:number}, { rejectWithValue }) => {
         try {
             const response = await axios.post<LoginResponse>(baseURL+"/login", {
                 email,
-                password
+                password,
+                account_id
             });
 
             const { data } = response;
@@ -146,7 +147,7 @@ export const logoutAdmin = createAsyncThunk(
             const token = getFromStorage('adminToken');
             if (token) {
                 await axios.post(
-                    baseURL+'/admin/logout',
+                    baseURL+'/logout',
                     {},
                     {
                         headers: {

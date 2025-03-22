@@ -50,7 +50,7 @@ export default function ViewUsers() {
       setIsLoading(true);
       const response = await getUsers(page, search, 'users');
       // Filter users to only show those with account.slug === 'users'
-      const filteredUsers = response.data.filter(user => user.account.slug === 'users');
+      const filteredUsers = response.data.filter(user => user?.account?.slug === 'users');
       setUsers(filteredUsers);
       setTotalPages(Math.ceil(response.total / response.per_page));
     } catch (error) {

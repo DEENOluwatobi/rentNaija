@@ -44,10 +44,13 @@ const Home: React.FC = () => {
                 const data: ApiResponse = await response.json();
                 
                 if (data.success) {
-                    const uniqueCategories = [...new Set(data.data.data.map(apt => apt.category))].filter(Boolean);
-                    const uniqueStates = [...new Set(data.data.data.map(apt => apt.state_code))].filter(Boolean);
-                    
-                    setCategories(uniqueCategories);
+                     
+                     const uniqueStates = [...new Set(data.data.data.map(apt => apt.state_code))]
+                     .filter((category): category is string => category !== undefined);
+                     
+                     const uniqueCategories = [...new Set(data.data.data.map(apt => apt.category))]
+                    .filter((category): category is string => category !== undefined);
+                    setCategories(uniqueCategories); 
                     setStates(uniqueStates);
                 }
             } catch (error) {
@@ -148,7 +151,7 @@ const Home: React.FC = () => {
         <div className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
             <div className="aspect-video relative overflow-hidden rounded-lg">
                 <img 
-                    src={Object.values(apartment.images)[0]?.preview_url || '/placeholder.jpg'}
+                    src={apartment?.images &&Object.values(apartment.images)[0]?.preview_url || '/placeholder.jpg'}
                     alt={apartment.title}
                     className="w-full h-full object-cover"
                 />
@@ -355,7 +358,7 @@ const Home: React.FC = () => {
                                 <div className="space-y-4">
                                     <div className="aspect-video relative overflow-hidden rounded-lg">
                                         <img 
-                                            src={Object.values(selectedApartment.images)[0]?.preview_url || '/placeholder.jpg'}
+                                            src={selectedApartment?.images && Object.values(selectedApartment.images)[0]?.preview_url || '/placeholder.jpg'}
                                             alt={selectedApartment.title}
                                             className="w-full h-full object-cover"
                                         />

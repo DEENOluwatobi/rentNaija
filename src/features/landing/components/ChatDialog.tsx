@@ -211,7 +211,7 @@ const ChatDialog: React.FC<ChatDialogProps> = ({ agentId, agentName }) => {
           </div>
         ) : (
           <>
-            <div className="h-[400px] overflow-y-auto p-4 space-y-4 border rounded-lg">
+            <div className="h-[292px] overflow-y-auto p-4 space-y-4 border rounded-lg">
               {!initialFetchDone ? (
                 <LoadingSpinner />
               ) : (

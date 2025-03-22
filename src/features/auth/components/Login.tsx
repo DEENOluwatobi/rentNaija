@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { login } from "@/redux/userSlice";
 import { useAlert } from '@/contexts/AlertContext';
 import {baseURL} from "@/../next.config";
+import { deleteFormData, getFormData, hasFormData } from "@/lib/utils";
 
 interface LoginResponse {
     success: boolean;
@@ -26,6 +27,7 @@ interface LoginResponse {
       name: string;
       email: string;
       phone: string | null;
+      is_subscribed:boolean|null;
       account: {
         name: string;
         slug: string;
@@ -43,6 +45,7 @@ interface LoginResponse {
       name: string;
       email: string;
       phone: string | null;
+      is_subscribed?:boolean;
       account: {
         name: string;
         slug: string;
@@ -56,10 +59,13 @@ const Login = ({ isPageVisible }: { isPageVisible: boolean }) => {
     const [formData, setFormData] = useState({
         password: "",
         email: "",
-    });
+        account_id:1
+    }); 
     const [showPassword, setShowPassword] = useState(false);
-    const router = useRouter();
+    const router = useRouter(); 
     const dispatch = useDispatch();
+
+    const nextUrl = getFormData('intended_url');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
@@ -80,6 +86,7 @@ const Login = ({ isPageVisible }: { isPageVisible: boolean }) => {
             email: data.user.email,
             phoneNumber: data.user.phone ? parseInt(data.user.phone) : null,
             userId: data.user.id, 
+            isSubscribed:data.user.is_subscribed,
             accountType: data.user.account.slug,
             apartments: data.user.apartments || [],
             rentedApartments: data.user.rented_apartments || []
@@ -97,6 +104,7 @@ const Login = ({ isPageVisible }: { isPageVisible: boolean }) => {
             email: data.data.email,
             phoneNumber: data.data.phone ? parseInt(data.data.phone) : null,
             userId: data.data.id, 
+            isSubscribed: data.data.is_subscribed,
             accountType: data.data.account.slug,
             apartments: [], 
             rentedApartments: [] 
@@ -120,7 +128,8 @@ const Login = ({ isPageVisible }: { isPageVisible: boolean }) => {
                 },
                 body: JSON.stringify({
                     email: formData.email,
-                    password: formData.password
+                    password: formData.password,
+                    account_id:formData.account_id
                 })
             });
 
@@ -143,16 +152,24 @@ const Login = ({ isPageVisible }: { isPageVisible: boolean }) => {
                 email: data.user.email,
                 phoneNumber: data.user.phone ? parseInt(data.user.phone) : null,
                 userId: data.user.id, // Make sure this is being set
+                isSubscribed:data.user.is_subscribed??false,
                 accountType: data.user.account.slug,
                 apartments: data.user.apartments || [],
                 rentedApartments: data.user.rented_apartments || []
             };
 
             // Dispatch login action with user details
+
             dispatch(login(userData));
             //console.log(userData)
             showAlert("Login Successful", "success");
-            router.push("/");
+            if(nextUrl){
+                deleteFormData('intended_url');
+                router.push(nextUrl);
+            }else{
+                  router.push("/");
+            }
+          
 
             // Verify the data was stored properly
             setTimeout(() => {

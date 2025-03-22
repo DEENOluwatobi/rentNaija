@@ -12,6 +12,7 @@ export const PersistLogin = () => {
             const userData = JSON.parse(savedState);
             if (userData.isLoggedIn) {
                 dispatch(login({
+                    isSubscribed:userData.isSubscribed,
                     firstName: userData.firstName,
                     lastName: userData.lastName,
                     email: userData.email,

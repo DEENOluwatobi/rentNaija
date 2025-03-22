@@ -20,8 +20,7 @@ export default function RootLayout({
 
   const [isPageVisible, setIsPageVisible] = useState(false);
 
-  return (
-    <html lang="en">
+  return ( 
       <body className={inter.className}>
         {/* LARGER SCREEN */}
         <div className="hidden lg:flex h-screen w-full"> 
@@ -103,7 +102,6 @@ export default function RootLayout({
             </div>
           </motion.div>
         </div>
-      </body>
-    </html>
+      </body> 
   );
 }

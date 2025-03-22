@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from '@/redux/store';
 import { logoutAdmin } from '@/redux/adminSlice';
 import { useRouter } from 'next/navigation';
 import { useAlert } from '@/contexts/AlertContext';
+import accountRefresher from '@/redux/accountRefresher';
 
 const DashHead = () => {
     const [isMenu, setIsMenu] = React.useState(false);
@@ -16,6 +17,8 @@ const DashHead = () => {
     const { showAlert } = useAlert();
     const { firstName, lastName } = useSelector((state: RootState) => state.admin);
 
+
+    accountRefresher('admin');
     const handleLogout = async () => {
         try {
             await dispatch(logoutAdmin()).unwrap();

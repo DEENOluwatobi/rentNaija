@@ -1,10 +1,10 @@
 import React from 'react';
-import UserChat from '@/features/landing/components/UserChat';
+import UserSubscription from '@/features/user/UserSubscription';
 
 const page = () => {
     return (
         <div>
-            <UserChat/>
+            <UserSubscription/>
         </div>
     )
 }

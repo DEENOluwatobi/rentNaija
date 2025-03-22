@@ -50,7 +50,7 @@ export default function ViewAgents() {
       setIsLoading(true);
       const response = await getUsers(page, search, 'agents');
       // Filter agents to only show those with account.slug === 'agents'
-      const filteredAgents = response.data.filter(user => user.account.slug === 'agents');
+      const filteredAgents = response.data.filter(user => user?.account?.slug === 'agents');
       setAgents(filteredAgents);
       setTotalPages(Math.ceil(response.total / response.per_page));
     } catch (error) {

@@ -29,7 +29,7 @@ const ApartmentCard = ({ apartment, onClick }: { apartment: Apartment, onClick: 
         <div className='flex flex-col gap-2'>
             <div className='flex w-full h-[150px] mdl:h-[200px] rounded-lg overflow-hidden'>
                 <img 
-                    src={Object.values(apartment.images)[0]?.preview_url || '/placeholder.jpg'}
+                    src={apartment?.images &&  Object.values(apartment?.images)[0]?.preview_url || '/placeholder.jpg'}
                     alt={apartment.title} 
                     className='w-full h-full object-cover'
                 />
@@ -59,7 +59,8 @@ const ComfortLiving = ({ initialData }: { initialData?: ApiResponse }) => {
     useEffect(() => {
         if (initialData) {
             setApartments(initialData.data.data);
-            const uniqueCategories = [...new Set(initialData.data.data.map(apt => apt.category))];
+            const uniqueCategories = [...new Set(initialData.data.data.map(apt => apt.category))]
+    .filter((category): category is string => category !== undefined);
             processCategories(uniqueCategories);
             return;
         }
@@ -71,7 +72,8 @@ const ComfortLiving = ({ initialData }: { initialData?: ApiResponse }) => {
                 const data: ApiResponse = await response.json();
                 if (data.success) {
                     setApartments(data.data.data);
-                    const uniqueCategories = [...new Set(data.data.data.map(apt => apt.category))];
+                    const uniqueCategories = [...new Set(data.data.data.map(apt => apt.category))]
+                    .filter((category): category is string => category !== undefined);
                     processCategories(uniqueCategories);
                 } else {
                     setError(data.message || 'Failed to fetch apartments');
@@ -88,6 +90,8 @@ const ComfortLiving = ({ initialData }: { initialData?: ApiResponse }) => {
     }, [initialData]);
 
     const processCategories = (uniqueCategories: string[]) => {
+        if(uniqueCategories){
+            
         const shuffledCategories = uniqueCategories
             .sort(() => Math.random() - 0.5)
             .slice(0, 5)
@@ -96,12 +100,12 @@ const ComfortLiving = ({ initialData }: { initialData?: ApiResponse }) => {
                 tabImage: tabs[index % tabs.length].image 
             }));
         setCategories(shuffledCategories);
+        }
     };
 
 
-    const handleApartmentClick = (apartment: Apartment) => {
-        const encodedData = encodeURIComponent(JSON.stringify(apartment));
-        router.push(`/find-homes/${apartment.id}?data=${encodedData}`);
+    const handleApartmentClick = (apartment: Apartment) => { 
+        router.push(`/find-homes/${apartment.id}`);
     };
 
     if (isLoading) {

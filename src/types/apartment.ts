@@ -24,31 +24,40 @@ export interface Image {
   }
   
   export interface Apartment {
-    agent_type: string;
-    agent_id: number;
-    id: number;
-    agent: string;
-    my_apartment: boolean;
-    business_name: string;
-    category_id: string;
-    category: string;
-    title: string;
-    description: string;
-    number_of_rooms: string;
-    amount: string;
-    security_deposit: string;
-    duration: string;
-    amenities: any[];
-    country_code: string;
-    state_code: string;
-    city_code: string;
-    published: string;
-    can_rate: string;
-    can_advertise: string;
-    images: { [key: string]: Image };
-    videos: { [key: string]: Video };
-    thumbnail: null | string;
-    views_count: number;
+    agent_type?: string;
+    agent_id?: number;
+    agent_phone?:number|string;
+    agent_email?:string;
+    id?: number;
+    agent?: string;
+    my_apartment?: boolean;
+    business_name?: string;
+    business_address?: string;
+    business_email?: string;
+    business_logo?: string;
+    business_phone?:string|number;
+    category_id?: string;
+    category?: string;
+    title?: string;
+    description?: string;
+    number_of_rooms?: string;
+    amount?: string;
+    security_deposit?: string;
+    security_deposit_currency_code?:string;
+    duration?: string;
+    amenities?: any[];
+    country_code?: string;
+    state_code?: string;
+    city_code?: string;
+    published?: string;
+    can_rate?: string;
+    can_advertise?: string;
+    images?: { [key: string]: Image };
+    videos?: { [key: string]: Video };
+    thumbnail?: null | string;
+    views_count?: number;
+    like_apartment?:boolean;
+    like_count?:number;
   }
   
   export interface PaginationLink {

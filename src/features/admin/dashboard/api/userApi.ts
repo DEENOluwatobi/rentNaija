@@ -7,14 +7,16 @@ export interface User {
   name: string;
   email: string;
   phone: string | null;
-  business_name: string | null;
-  country: string | null;
-  state: string | null;
-  city: string | null;
-  business_email: string | null;
-  business_phone: string | null;
-  business_address: string | null;
-  account: {
+  business_name?: string | null;
+  country?: string | null;
+  state?: string | null;
+  city?: string | null;
+  profile_photo_path:string|null;
+  business_logo?:string;
+  business_email?: string | null;
+  business_phone?: string | null;
+  business_address?: string | null;
+  account?: {
     id: number;
     name: string;
     slug: string;

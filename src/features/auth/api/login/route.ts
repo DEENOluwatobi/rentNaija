@@ -5,7 +5,7 @@ import {baseURL} from "@/../next.config";
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { email, password } = body;
+        const { email, password,account_type_id } = body;
 
         // Make request to the external API
         const response = await axios({
@@ -17,7 +17,8 @@ export async function POST(request: Request) {
             },
             data: {
                 email,
-                password
+                password,
+                account_type_id
             }
         });
 

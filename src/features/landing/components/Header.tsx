@@ -1,7 +1,7 @@
 'use client';
-import React, {useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Link from 'next/link';
-import {usePathname} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '@/redux/store';
 import {Menu, X, LogOut, UserCircle2} from 'lucide-react';
@@ -9,6 +9,7 @@ import {motion} from 'framer-motion';
 import {logout} from '@/redux/userSlice';
 import Image from 'next/image';
 import Logo from '@/components/assets/logo/logo.png'
+import accountRefresher from '@/redux/accountRefresher';
 
 const Header = () => {
     const pathname = usePathname();
@@ -16,29 +17,32 @@ const Header = () => {
     const [isUserMenu, setIsUserMenu] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.user);
+    const router = useRouter();
 
-    let links = [
-        {title: 'Home', link: '/'},
-        {title: 'Find Homes', link: '/find-homes'},
-        {title: 'About', link: '/about'},
-        {title: 'Contact Us', link: '/contact'},
-    ];
+    const toggleMenu = () => setIsMenu((prev) => !prev);
+const toggleUserMenu = () => setIsUserMenu((prev) => !prev);
 
+    // useEffect(()=>{
 
+    // },[user.isLoggedIn]);
+    accountRefresher(); // Automatically refresh user state
 
-    // if account type is just users, add chats and rents page
-    if (user.isLoggedIn && String(user.accountType) !== 'agents' && String(user.accountType) !== 'admins') {
-        links = [
-            {title: 'Home', link: '/'},
-            {title: 'Find Homes', link: '/find-homes'},
-            {title: 'About', link: '/about'},
-            {title: 'Contact Us', link: '/contact'},
-            {title: 'Chats', link: '/user-chat'},
-            {title: 'Rents', link: '/user-rent'}
+    
+    const links = useMemo(() => {
+        const baseLinks = [
+            { title: 'Home', link: '/' },
+            { title: 'Find Homes', link: '/find-homes' },
+            { title: 'About', link: '/about' },
+            { title: 'Contact Us', link: '/contact' },
         ];
-    }
+        if (user.isLoggedIn && !['agents', 'admins'].includes(String(user.accountType))) {
+            return [...baseLinks, { title: 'Chats', link: '/user/chat' }, { title: 'Rents', link: '/user/rent' }, { title: 'Subscriptions', link: '/user/subscriptions' }];
+        }
+        return baseLinks;
+    }, [user.isLoggedIn, user.accountType]);
+    
     const handleLogout = () => {
-        dispatch(logout());
+        dispatch(logout());  return router.push('/');
     };
 
     const getUserIdDisplay = () => {
@@ -54,7 +58,7 @@ const Header = () => {
         <div
             className="fixed top-0 left-0 w-full bg-black bg-opacity-70 backdrop-blur-md z-[99] px-2 py-2 md:px-4 md:py-4 flex justify-between items-center">
             <Link href="/" className="">
-                <Image src={Logo} alt='logo' width={500} height={500} className='w-[120px] h-[50px] object-contain'/>
+                <Image src={Logo} alt='logo' width={500} height={500} className='w-[120px] h-[50px] object-contain'  priority={false}/>
             </Link>
 
             <div className="hidden lg:flex justify-center items-center gap-10 text-white">

@@ -14,11 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-full flex flex-col">
+        <body className="w-full flex flex-col">
         <Providers>
           {children}
         </Providers>
-      </body>
-    </html>
+        </body>
+      </html>
   );
 }

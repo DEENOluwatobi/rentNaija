@@ -2,7 +2,7 @@
 import React from 'react'
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { BookOpenText, CirclePlus, CircleUser, Globe, Home, Mail } from 'lucide-react';
+import { BookOpenText, Building2Icon, CirclePlus, CircleUser, Globe, Home, Mail } from 'lucide-react';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/redux/agentSlice';
 
@@ -32,6 +32,11 @@ const BottomNav = () => {
             link: "/agents/dashboard/manage-property",
             icon: BookOpenText,
         },
+         {
+                    name: "Manage Rent", 
+                    link: "/agents/dashboard/manage-rent",
+                    icon: Building2Icon,
+        },
         {
             name: "Message", 
             link: "/agents/dashboard/messages",
@@ -50,8 +55,8 @@ const BottomNav = () => {
     ]
 
     return (
-        <div className='px-4 py-2 w-full h-full bg-black/85 text-white flex'>
-            <div className='flex justify-center items-center gap-8 md:gap-14'>
+        <div className='px-4 py-2 w-full h-full bg-black/85 text-white flex overflow-x-auto'>
+            <div className='w-full flex justify-center items-center gap-8 md:gap-14'>
                 {links.map((link, index) => (
                     <Link href={link.link} key={index} className=''>
                         <div className={`flex flex-col items-center ${pathname === link.link ? "text-orange-500" : "text-white"}`}>
@@ -62,7 +67,7 @@ const BottomNav = () => {
 
                 <button
                     onClick={handleLogout}
-                    className="w-full flex items-center text-red-600 hover:text-white"
+                    className=" flex items-center text-red-600 hover:text-white"
                     >
                     <svg 
                         xmlns="http://www.w3.org/2000/svg" 

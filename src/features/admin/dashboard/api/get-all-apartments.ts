@@ -24,7 +24,7 @@ export interface Apartment {
     }>;
 }
 
-interface PaginationData {
+export interface PaginationData {
     current_page: number;
     last_page: number;
     per_page: number;
@@ -32,7 +32,7 @@ interface PaginationData {
     data: Apartment[];
 }
 
-interface ApiResponse {
+export interface ApiResponse {
     success: boolean;
     message: string;
     data: PaginationData;

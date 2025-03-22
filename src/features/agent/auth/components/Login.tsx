@@ -11,6 +11,7 @@ const Login: React.FC = () => {
   const { showAlert } = useAlert();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const account_id = 2;
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useRouter();
@@ -22,7 +23,7 @@ const Login: React.FC = () => {
     setIsLoading(true);
     
     try {
-      const result = await dispatch(loginAgent({ email, password })).unwrap();
+      const result = await dispatch(loginAgent({ email, password ,account_id})).unwrap();
       
       if (result.accountType !== "agents") {
         showAlert("Access denied. This login is for agents only. Please register as an agent or use the appropriate login page.", "error");

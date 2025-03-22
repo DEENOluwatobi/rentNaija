@@ -110,7 +110,7 @@ const ViewRents = () => {
   }
 
   return (
-    <div className="w-full mx-auto py-6 poppins">
+    <div className="w-full mx-auto py-6 px-4 poppins">
       <h1 className="text-2xl font-bold mb-6">Rent Requests</h1>
       
       <div className="rounded-md border">

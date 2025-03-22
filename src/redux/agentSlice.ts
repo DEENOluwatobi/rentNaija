@@ -134,11 +134,12 @@ const loadInitialState = (): AgentState => {
 
 export const loginAgent = createAsyncThunk(
     'agent/login',
-    async ({ email, password }: { email: string; password: string }, { rejectWithValue }) => {
+    async ({ email, password, account_id }: { email: string; password: string; account_id: number }, { rejectWithValue }) => {
         try {
-            const response = await axios.post<LoginResponse>(baseURL+"/login", {
+            const response:any = await axios.post<LoginResponse>(baseURL+"/login", {
                 email,
-                password
+                password,
+                account_id
             });
 
             const { data } = response;
@@ -147,7 +148,7 @@ export const loginAgent = createAsyncThunk(
             const firstName = nameParts[0] || '';
             const lastName = nameParts.slice(1).join(' ') || '';
 
-            const account_id = data.user.account_id ? parseInt(data.user.account_id) : null;
+            // const account_id = data.user.account_id ? parseInt(data.user.account_id) : null;
 
             const persistState = {
                 isLoggedIn: true,

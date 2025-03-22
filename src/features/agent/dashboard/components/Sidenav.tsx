@@ -2,7 +2,7 @@
 import React from 'react'
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { BookOpenText, CirclePlus, CircleUser, Globe, Home, Mail } from 'lucide-react';
+import { BookOpenText, Building2Icon, CirclePlus, CircleUser, Globe, Home, Mail } from 'lucide-react';
 import Image from 'next/image';
 import Logo from '@/components/assets/logo/logo.png'
 import { useDispatch } from 'react-redux';
@@ -28,6 +28,11 @@ const Sidenav = () => {
             name: "Manage Property", 
             link: "/agents/dashboard/manage-property",
             icon: BookOpenText,
+        },
+        {
+            name: "Manage Rent", 
+            link: "/agents/dashboard/manage-rent",
+            icon: Building2Icon,
         },
         {
             name: "Message", 
@@ -59,7 +64,7 @@ const Sidenav = () => {
                 </div>
                 <span className='ml-[120px] text-[.8em] text-white/90'>Agent</span>
             </div>
-
+            <div className='flex flex-col overflow-y-auto max-h-[550px] pb-[50px] px-2'>
             <div className='py-20 flex flex-col gap-4'>
                 {links.map((link, index) => (
                     <Link href={link.link} key={index} className='w-full'>
@@ -92,6 +97,7 @@ const Sidenav = () => {
                     </svg>
                     <span>Logout</span>
                 </button>
+            </div>
             </div>
         </div>
     )

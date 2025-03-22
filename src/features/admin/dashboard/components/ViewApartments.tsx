@@ -23,6 +23,7 @@ import {getAllApartments, deleteApartment, type Apartment} from '../api/get-all-
 import {Search, ChevronLeft, ChevronRight,   Pencil} from 'lucide-react';
 import {updateApartment} from "../api/get-all-apartments";
 import Link from "next/link";
+import { DialogDescription } from '@radix-ui/react-dialog';
 
 const ViewApartment = () => {
     const [apartments, setApartments] = useState<Apartment[]>([]);
@@ -169,7 +170,8 @@ const ViewApartment = () => {
                                             </DialogTrigger>
                                             <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
                                                 <DialogHeader>
-                                                    <DialogTitle>{apartment.title}</DialogTitle>
+                                                <DialogDescription>{apartment.title} </DialogDescription>
+                                                    {/* <DialogTitle>{apartment.title}</DialogTitle> */}
                                                 </DialogHeader>
                                                 <div className="grid gap-4 py-4">
                                                     <div className="grid grid-cols-2 gap-4">

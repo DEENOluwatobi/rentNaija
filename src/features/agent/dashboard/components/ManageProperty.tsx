@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {baseURL} from "@/../next.config";
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Image {
   name: string;
@@ -46,6 +48,7 @@ interface Property {
   videos: Record<string, Video>;
   thumbnail: string | null;
   views_count: number;
+  likes_count?:number;
 }
 
 interface PaginatedResponse {
@@ -150,10 +153,13 @@ const ManageProperty: React.FC = () => {
   if (error) return <div className="text-red-500 p-4">{error}</div>;
 
   return (
-    <div className="w-full px-4 py-8 flex flex-col items-center gap-4 ">
-      <h1 className="text-black/80 text-[1.5rem] font-semibold">Manage Properties</h1>
+    <div className=' px-4 py-8'>
       
-      <div className="mb-6 w-full max-w-2xl">
+      <h1 className="text-black/80 text-[1.5rem] font-semibold">Manage Properties</h1>
+    <div className="w-full flex flex-col items-center gap-4 ">
+      <div className='w-full'>
+        
+      <div className="mb-6  max-w-2xl w-2/3 md:w-1/4">
         <input
           type="text"
           placeholder="Search properties by title, category, or location..."
@@ -161,6 +167,7 @@ const ManageProperty: React.FC = () => {
           onChange={handleSearch}
           className="w-full text-[.8em] border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-1 focus:ring-orange-500"
         />
+      </div>
       </div>
 
       {filteredProperties.length > 0 ? (
@@ -173,6 +180,7 @@ const ManageProperty: React.FC = () => {
                 <th className="p-4 text-[.8em] font-medium text-white">Category</th>
                 <th className="p-4 text-[.8em] font-medium text-white">Rooms</th>
                 <th className="p-4 text-[.8em] font-medium text-white">Amount</th>
+                <th className="p-4 text[.8em] font-medium text-white">Stats</th>
                 <th className="p-4 text-[.8em] font-medium text-white">Location</th>
                 <th className="p-4 text-[.8em] font-medium text-white">Actions</th>
               </tr>
@@ -195,6 +203,7 @@ const ManageProperty: React.FC = () => {
                   <td className="p-4 text-gray-700 text-[.8em]">{property.category}</td>
                   <td className="p-4 text-gray-700 text-[.8em]">{property.number_of_rooms}</td>
                   <td className="p-4 text-gray-700 text-[.8em]">{property.amount}</td>
+                  <td className='p-4 text0-gray-700 text-[.8em]'><span>{property?.views_count} views</span> <span>{property?.likes_count} Likes</span></td>
                   <td className="p-4 text-gray-700 text-[.8em]">
                     {`${property.city_code}, ${property.state_code}`}
                   </td>
@@ -213,7 +222,29 @@ const ManageProperty: React.FC = () => {
               ))}
             </tbody>
           </table>
-        </div>
+           <div className="flex items-center justify-center space-x-2 py-4">
+                          <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                              disabled={currentPage === 1}
+                          >
+                              <ChevronLeft className="h-4 w-4"/>
+                          </Button>
+                          <span className="text-sm">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                          <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                              disabled={currentPage === totalPages}
+                          >
+                              <ChevronRight className="h-4 w-4"/>
+                          </Button>
+                      </div>
+                  </div>
+         
       ) : (
         <div className="text-center text-gray-500 py-8">No properties found</div>
       )}
@@ -346,6 +377,7 @@ const ManageProperty: React.FC = () => {
           )}
         </DialogContent>
       </Dialog>
+    </div>
     </div>
   );
 };

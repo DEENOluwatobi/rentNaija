@@ -1,5 +1,7 @@
 import axios from 'axios';
 import {baseURL} from "@/../next.config";
+import { ApiRentResponse } from '@/types/rent';
+import { AxiosApi } from '@/lib/utils';
 
 
 // Types
@@ -100,4 +102,16 @@ export const deleteUser = async (id: number) => {
     }
   );
   return response.data;
+};
+
+
+export const getAgentRents = async (page: number = 1, search: string = '') => {
+  try {
+    
+      const response = await AxiosApi('agent').get<ApiRentResponse>( baseURL + `/rented-apartments?page=${page}&search=${search}` );
+
+      return response.data;
+  } catch (error) {
+      throw error;
+  }
 };

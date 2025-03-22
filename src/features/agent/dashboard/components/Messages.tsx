@@ -75,7 +75,7 @@ const Messages: React.FC = () => {
         if (!selectedUser || !newMessage.trim()) return;
 
         try {
-            await api.put(`/conversation/${selectedUser}`, {
+            await api.post(`/conversation`, {
                 from_id: userId,
                 message: newMessage,
                 to_id: selectedUser
@@ -134,9 +134,9 @@ const Messages: React.FC = () => {
                     {selectedUser ? (
                         <>
                             <div className="flex-1 p-4 overflow-y-auto">
-                                {messages.map((message) => (
+                                {messages.map((message:any,index:number) => (
                                     <div
-                                        key={message.id}
+                                        key={index}
                                         className={`mb-4 ${
                                             parseInt(message.from_id) === userId 
                                                 ? 'text-right' 

@@ -180,8 +180,8 @@ const Messages = () => {
 
             const filteredUsers = response.data.filter(user => 
                 activeTab === 'agents' 
-                    ? user.account.slug === 'agents'
-                    : user.account.slug === 'users'
+                    ? user?.account?.slug === 'agents'
+                    : user?.account?.slug === 'users'
             );
             
             setUsers(filteredUsers);

@@ -1,14 +1,14 @@
 import type {NextConfig} from "next";
 
 
-
-
-export const baseURL = 'https://api.rent9ja.com.ng/api';
-// export const baseURL = 'http://localhost:8000/api';
+// export const baseURL = 'https://api.rent9ja.com.ng/api';
+export const frontendURL = 'https://rent9ja.com.ng';
+export const backendUrl = 'https://app.rent9ja.com.ng';
+export const baseURL = backendUrl+'/api';
 
 const nextConfig: NextConfig = {
     images: {
-        domains: ['images.unsplash.com', 'www.lummi.ai', 'www.rent9ja.com.ng', "api.rent9ja.com.ng"],
+        domains: ['images.unsplash.com', 'www.lummi.ai', 'www.rent9ja.com.ng', "api.rent9ja.com.ng","localhost"],
     },
     async headers() {
         return [

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    console.log('Registration request body:', body); // Debug log
+    // console.log('Registration request body:', body); // Debug log
 
     const response = await axios.post(
         baseURL+'/register',
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
       }
     );
 
-    console.log('API Response:', response.data); // Debug log
+    // console.log('API Response:', response.data); // Debug log
     return NextResponse.json(response.data);
 
   } catch (error: any) {

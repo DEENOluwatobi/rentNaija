@@ -15,9 +15,12 @@ import { loginAdmin } from '@/redux/adminSlice';
 import { RootState, AppDispatch } from '@/redux/store';
 import { useAlert } from '@/contexts/AlertContext';
 
+
+
 const loginSchema = z.object({
     email: z.string().email('Invalid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
+    account_id: z.number().optional(),  
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -27,6 +30,8 @@ const AdminLogin: React.FC = () => {
     const router = useRouter();
     const { showAlert } = useAlert();
     const { isLoading, error } = useSelector((state: RootState) => state.admin);
+    
+    const accountId = 4;  
 
     const {
         register,
@@ -34,11 +39,12 @@ const AdminLogin: React.FC = () => {
         formState: { errors },
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
+        defaultValues: { account_id: accountId },  // Set default value
     });
 
     const onSubmit = async (data: LoginFormData) => {
         try {
-            const result = await dispatch(loginAdmin(data)).unwrap();
+            const result = await dispatch(loginAdmin({ ...data, account_id: accountId })).unwrap();
             if (result) {
                 showAlert("Login successful. Welcome!", "success");
                 router.push('/admin/dashboard');
@@ -88,6 +94,10 @@ const AdminLogin: React.FC = () => {
                                 <p className="text-sm text-red-500">{errors.password.message}</p>
                             )}
                         </div>
+
+                        {/* Hidden account_id input */}
+                        <input type="hidden" {...register("account_id")} />
+
                         <Button
                             type="submit"
                             className="w-full text-white bg-orange-500 hover:bg-orange-600"
@@ -108,5 +118,6 @@ const AdminLogin: React.FC = () => {
         </div>
     );
 };
+
 
 export default AdminLogin;
